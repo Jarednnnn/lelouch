@@ -34,7 +34,7 @@ export default {
     }
     const isOficialBot = botId === global.client.user.id.split(':')[0] + '@s.whatsapp.net';
     const botType = isOficialBot ? 'Principal/Owner' : 'Sub Bot';
-    const pp = await client.profilePictureUrl(m.sender, 'image').catch(() => 'https://cdn.yuki-wabot.my.id/files/nufq.jpeg');    
+    const pp = await client.profilePictureUrl(m.sender, 'image').catch(() => 'https://cdn.yuki-wabot.my.id/files/2PVh.jpeg');    
     const sugg = `❀ 𝗦𝗢𝗟𝗜𝗖𝗜𝗧𝗨𝗗 𝗥𝗘𝗖𝗜𝗕𝗜𝗗𝗔
     
 ✩ *Usuario ›* ${global.db.data.users[m.sender].name}
