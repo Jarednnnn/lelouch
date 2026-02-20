@@ -32,6 +32,28 @@ async function uploadToCatbox(buffer, mime) {
   return res.data.trim()
 }
 
+async function uploadToAdonix(buffer, mime) {
+  const filename = generateUniqueFilename(mime)
+  const base64Content = buffer.toString('base64')
+
+  const res = await axios.post('https://adofiles.i11.eu/api/upload', {
+    filename: filename,
+    content: base64Content,
+    apiKey: 'Ado&'
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Api-Key': 'Ado&'
+    }
+  })
+
+  if (res.status !== 201 || !res.data.files || res.data.files.length === 0) {
+    throw new Error('Respuesta inválida de AdonixFiles')
+  }
+
+  return res.data.files[0].publicUrl
+}
+
 export default {
   command: ['tourl'],
   category: 'utils',
@@ -48,12 +70,23 @@ export default {
 
     try {
       const media = await q.download()
-      const link = await uploadToCatbox(media, mime)
+
+      const [catboxLink, adonixLink] = await Promise.all([
+        uploadToCatbox(media, mime),
+        uploadToAdonix(media, mime)
+      ])
+
       const userName = global.db.data.users[m.sender]?.name || 'Usuario'
-      const upload = `✎ *Upload To Catbox*\n\nׅ✿ *Link ›* ${link}\nׅ✿ *Peso ›* ${formatBytes(media.length)}\nׅ✿ *Solicitado por ›* ${userName}\n\n${dev}`
+      const upload = `✎ *Upload Success*\n\n` +
+        `ׅ✿ *URL [1] ›* ${catboxLink}\n` +
+        `ׅ✿ *URL [2]›* ${adonixLink}\n` +
+        `ׅ✿ *Peso ›* ${formatBytes(media.length)}\n` +
+        `ׅ✿ *Solicitado por ›* ${userName}\n\n${dev}`
+
       await client.reply(m.chat, upload, m)
     } catch (e) {
-      await m.reply('《✧》 Fail')
+      console.error(e)
+      await m.reply(`《✧》 Fail: ${e.message}`)
     }
   }
 }
