@@ -18,6 +18,13 @@
         "value": 100
       },
       {
+        "id": "258025",
+        "name": "putitoitsme",
+        "gender": "Mujer",
+        "tags": ["putito"],
+        "value": 100
+      },
+      {
         "id": "2",
         "name": "Yuuka Pijama",
         "gender": "Mujer",
@@ -14702,7 +14709,7 @@
         "name": "Sasuke Uchiha",
         "gender": "Hombre",
         "tags": ["uchiha_sasuke"],
-        "value": 100
+        "value": 100000000
       },
       {
         "id": "739394",
